@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		nav {
+			height: 50px;
+		}
+
+		.cnt {
+			width: 320px;
+			min-height: 300px;
+			margin: auto;
+			box-shadow: 0 0 5px grey;
+		}
+
+		#testdiv {
+			transition: 1s;
+		}
+
+		.green {
+			background-color: green;
+		}
+
+		.orange {
+			background-color: orange;
+		}
+
+		.big {
+			border: 2px solid black;
+		}
+
+		.divs {
+			height: 50px;
+		}
+
+
+		.hide {
+			height: 0;
+		}
+
+	</style>
+</head>
+<body>
+
+
+
+
+<div class="cnt">
+	<div>
+		<input type="text" placeholder="name">
+	</div>
+	<div>
+		<input type="text" placeholder="city">
+	</div>
+	<div>
+		<input type="text" placeholder="country">
+	</div>
+	<div>
+		<input type="text" placeholder="Search by country">
+	</div>
+
+	<select>
+		<option value="up">A-Z</option>
+		<option value="down">Z-A</option>
+	</select>
+
+	<select>
+		<option value="name">By Name</option>
+		<option value="country">By Country</option>
+		<option value="city">By City</option>
+	</select>
+
+	<div id="info">
+		
+	</div>
+	<button id="plus">Add</button>
+</div>
+
+
+
+<script type="text/javascript">
+
+
+var btn = document.getElementById("plus");
+var inps = document.querySelectorAll("input");
+var infoDiv = document.getElementById("info");
+var select = document.querySelectorAll("select");
+
+
+
+var uName = inps[0];
+var city = inps[1];
+var country = inps[2];
+var searchField = inps[3];
+
+var dataArr = [];
+
+function Note(name, city, country) {
+	this.name = name;
+	this.city = city;
+	this.country = country;
+}
+
+function getInfo() {
+	// var obj = {
+	// 	name: uName.value,
+	// 	city: city.value,
+	// 	country: country.value
+	// }
+
+	//dataArr.push( obj );
+
+	dataArr.push( new Note(uName.value, city.value, country.value) )
+
+	uName.value = "";
+	city.value = "";
+	country.value = "";
+
+	console.log(dataArr);
+
+	createHtml(dataArr);
+
+}
+
+function createNote(name, city, country, index){
+	var div = document.createElement("div");
+
+	// div.onclick = function(){
+	// 	dataArr.splice(index, 1);
+	// 	console.log(dataArr);
+	// 	createHtml(dataArr);
+
+	// }
+
+	var nameP = document.createElement("p");
+	var cityP = document.createElement("p");
+	var countryP = document.createElement("p");
+
+	nameP.textContent = name;
+	cityP.textContent = city;
+	countryP.textContent = country;
+
+	div.appendChild(nameP);
+	div.appendChild(cityP);
+	div.appendChild(countryP);
+
+	infoDiv.appendChild(div);
+
+
+}
+
+function createHtml(arr){
+
+	infoDiv.innerHTML = "";
+	for(var i = 0; i < arr.length; i++) {
+		createNote( arr[i].name, arr[i].city, arr[i].country, i );
+	}
+
+}
+
+btn.onclick = getInfo;
+
+select[0].onchange = function(){
+	//console.log(select.value);
+	console.log(select.options)
+	console.log(select.selectedIndex);
+
+	var sort;
+
+	if(select.value == "up") {
+		sort = 1;
+	}
+	else {
+		sort = -1;
+	}
+
+	dataArr.sort( function(a, b){
+		if(a.name > b.name) {
+			return sort;
+		}
+		else {
+			return sort * -1;
+		}
+	} );
+
+
+	createHtml(dataArr);
+
+}
+
+///////
+
+var field = "country";
+
+select[1].onchange = function(e){
+	field = e.target.value;
+	console.log(field);
+}
+
+
+//////
+
+searchField.oninput = function(e){
+	var searchTerm = e.target.value; // Getting text from search input
+
+	var filteredArr = dataArr.filter( function(item) {
+		return item[field].toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+	} );
+
+	console.log(filteredArr);
+
+	createHtml(filteredArr);
+
+	// if(filteredArr.length > 0) {
+	// 	createHtml(filteredArr);
+	// }
+	// else {
+	// 	createHtml(dataArr);
+	// }
+
+	
+
+}
+
+var text = "I love Bananas";
+
+console.log(text.toUpperCase());
+console.log(text.toLowerCase());
+
+
+
+
+
+</script>
+
+
+
+</body>
+
+
+</html>

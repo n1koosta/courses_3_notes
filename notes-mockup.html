@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+
+		body, html {
+			margin: 0;
+			width: 100%;
+			height: 100%;
+		}
+
+		nav {
+			height: 50px;
+		}
+
+
+		.green {
+			background-color: green;
+		}
+
+		.orange {
+			background-color: orange;
+		}
+
+		.big {
+			border: 2px solid black;
+		}
+
+		.divs {
+			/*position: absolute;*/
+			float: left;
+			width: 150px;
+			height: 150px;
+			background-color: gold;
+			border: 1px solid grey;
+		}
+
+
+		.hide {
+			height: 0;
+		}
+		.addme {
+			position: fixed;
+			right: 10px;
+			top: 10px;
+			padding: 15px;
+		}
+
+		.board {
+			width: 100%;
+			height: 100%;
+			background-color: lightgrey;
+		}
+
+	</style>
+</head>
+<body>
+<button class="addme">+</button>
+
+<div class="board">
+	
+</div>
+
+
+
+
+<script type="text/javascript">
+
+var addBtn = document.querySelector(".addme");
+var box = document.getElementById("testdiv");
+var board = document.querySelector(".board");
+
+var notesArr = [];
+
+function createNote(text, index, arr){
+	var div = document.createElement("div");
+	div.className = "divs";
+	div.textContent = text;
+	var delBtn = document.createElement("button");
+	delBtn.onclick = function(){
+		arr.splice(index, 1);
+		generateNotes(arr);
+	}
+	// textArea.ondblclick = function(e){
+	// 	arr[index].text = e.target.value;
+	// }
+	div.appendChild(delBtn);
+	board.appendChild(div);
+}
+
+function newNote(){
+	var noteObj = {
+		text: "New note"
+	}
+	notesArr.push(noteObj);
+	generateNotes(notesArr);
+}
+
+function generateNotes(arr){
+
+	board.innerHTML = "";
+
+	// for(var i = 0; i < arr.length; i++) {
+	// 	createNote(arr[i].text);
+	// }
+
+	arr.map( function(item, index, arr){
+		createNote(item.text, index, arr);
+	});
+
+}
+
+addBtn.onclick = newNote;
+
+</script>
+
+
+
+</body>
+
+
+</html>
